@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
-function App() {
+import Footer from './Pages/Footer/Footer'
+import Header from './Pages/Header/Header'
+import StarterPage from './Pages/StarterPage/StarterPage'
+import EndReservation from './Pages/EndReservation/EndReservation'
+import Login from './Pages/Login/Login'
+
+function App () {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <div className='w-full h-screen'>
+        <div className='w-full h-screen flex flex-col justify-between bg-barber-img bg-no-repeat bg-cover '>
+          <Header />
+          <Routes>
+            <Route path='/' exact element={<StarterPage />} />
+          </Routes>
+
+          <Footer />
+        </div>
+      </div>
+    </Router>
+  )
 }
 
-export default App;
+export default App
+
+/**
+ * 
+            <Route path='/login' element={<Login />} />
+            <Route path='/endreservation' element={<EndReservation />} />
+ */
