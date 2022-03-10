@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Calendar from 'react-calendar'
+//
 import worker_fe from '../../Assets/Images/worker_fe.png'
 import worker_ma from '../../Assets/Images/worker_ma.png'
 import poleicon from '../../Assets/Images/poleicon.png'
@@ -63,6 +65,8 @@ const freetime = [
 export default function DateReservation () {
   const [barberSelected, setBarberSelected] = useState(0)
   const [timeSelected, setTimeSelected] = useState('')
+  const [dateSelected, setDateSelected] = useState(new Date())
+
   let navigate = useNavigate()
   return (
     <div className='w-full h-full flex flex-col justify-cetner items-center text-white'>
@@ -95,17 +99,20 @@ export default function DateReservation () {
               )
             })}
           </div>
-          <div className='mt-0'>Odabir datuma</div>
-          <div className='mt-1 w-1/3 rounded-3xl border border-yellow-300 border-solid mb-20'></div>
+          <div>
+            <div className='mt-0'>Odabir datuma</div>
+            <div className='mt-1 w-1/3 rounded-3xl border border-yellow-300 border-solid'></div>
+          </div>
+
           <div>
             <div>slobodni termini</div>
             <div className='mt-1 w-1/3 rounded-3xl border border-yellow-300 border-solid'></div>
-            <div className='w-4/5 mt-4 grid grid-cols-4'>
+            <div className='w-4/5 mt-4 grid grid-cols-4 place-items-center'>
               {freetime.map((time, index) => {
                 return (
                   <div
                     key={index}
-                    className='w-32 rounded-3xl bg-yellow-400 bg-opacity-20 hover:bg-green-500 hover:bg-opacity-20 text-center mb-2'
+                    className='w-32  mb-2  text-center rounded-3xl bg-yellow-400 bg-opacity-20 hover:bg-green-500 hover:bg-opacity-60 cursor-pointer'
                     onClick={() => setTimeSelected(time.time)}
                   >
                     {time.time}
@@ -127,10 +134,8 @@ export default function DateReservation () {
             <div className='flex'>
               {' '}
               Datum i vrijeme:{' '}
-              <h1 className='ml-2 mr-2 text-yellow-500 font-bold'>
-                pon 28.2{' '}
-              </h1>{' '}
-              u terminu{' '}
+              <h1 className='ml-2 mr-2 text-yellow-500 font-bold'></h1> u
+              terminu{' '}
               <h1 className='ml-2 text-yellow-500 font-bold'>{timeSelected}</h1>
             </div>
             <div className='flex'>
