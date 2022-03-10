@@ -1,0 +1,74 @@
+[
+    {
+        "idusluga": 1,
+        "imgsrc": "/url/slike",
+        "name": "Šišanje",
+        "description": "Lorem ipsum",
+        "currency": "kn",
+        "price": 90,
+        "duration": 20,
+        "subservices": [
+            {
+                "subserviceid": 1,
+                "imgsrc": "/url/slike",
+                "name": "Neka masaža",
+                "description": "Lorem ipsum",
+                "currency": "kn",
+                "idusluga": 1,
+                "price": 20,
+                "duration": 20
+            },
+            {
+                "subserviceid": 2,
+                "imgsrc": "/url/slike",
+                "name": "Skraćivanje brade",
+                "description": "Lorem ipsum",
+                "currency": "kn",
+                "idusluga": 1,
+                "price": 20,
+                "duration": 20
+            }
+        ]
+    },
+    {
+        "idusluga": 2,
+        "imgsrc": "/url/slike",
+        "name": "Olivers frizura",
+        "description": "Lorem ipsum",
+        "currency": "kn",
+        "price": 120,
+        "duration": 40,
+        "subservices": [
+            {
+                "subserviceid": 3,
+                "imgsrc": "/url/slike",
+                "name": "Skraćivanje brade",
+                "description": "Lorem ipsum",
+                "currency": "kn",
+                "idusluga": 2,
+                "price": 20,
+                "duration": 20
+            }
+        ]
+    },
+    {
+        "idusluga": 3,
+        "imgsrc": "/url/slike",
+        "name": "Olivers brada",
+        "description": "Lorem ipsum",
+        "currency": "kn",
+        "price": 90,
+        "duration": 60,
+        "subservices": []
+    },
+    {
+        "idusluga": 4,
+        "imgsrc": "/url/slike",
+        "name": "Olivers ritual",
+        "description": "Lorem ipsum",
+        "currency": "kn",
+        "price": 210,
+        "duration": 20,
+        "subservices": []
+    }
+]

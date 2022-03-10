@@ -1,6 +1,44 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import logo_white from '../../Assets/Images/logo_white.png'
+import {
+  setAdminSession,
+  setWorkerSession,
+  getToken
+} from '../../Auth/SessionFunctions'
+
 export default function Login () {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const navigate = useNavigate()
+  const handleLogin = async e => {
+    e.preventDefault()
+    setAdminSession('1293moamwomiod231jnoiwjaoejkwa', username, 'true')
+
+    navigate('/admin-dashboard', { replace: true })
+    /*const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    }
+    console.log('admin : ', username, ' pass: ', password)
+    await fetch('/login/regular', requestOptions)
+      .then(result => {
+        if (result.status === 202) {
+          setAdminSession(result.text(), username, 'true')
+          navigate('../admin-dashboard', { replace: true })
+        } else if (result.status === 200) {
+          setWorkerSession(result.text(), username)
+          navigate('../worker-dashboard', { replace: true })
+        }
+      })
+      .catch(error => console.error(error))*/
+  }
+
   return (
     <div className='mb-auto h-screen flex justify-center items-center'>
       <div className='rounded-3xl bg-trans-green bg-opacity-80 h-80 w-80 -mt-48'>
@@ -11,18 +49,25 @@ export default function Login () {
           <img src={logo_white} alt='whitelogo' className='w-1/5' />
         </div>
         <div>
-          <form className='flex flex-col justify-center items-center mt-10'>
+          <form
+            className='mt-3 ml-8 mr-8 flex flex-col ju text-white'
+            onSubmit={e => handleLogin(e)}
+          >
             <input
-              type='email'
               required
-              placeholder='email'
-              className='bg-trans-l-green rounded-3xl pl-4 bg-opacity-20'
+              type='text'
+              placeholder='username'
+              value={username}
+              className='bg-trans-l-green rounded-3xl pl-4 bg-opacity-20 text-white'
+              onChange={e => setUsername(e.target.value)}
             />
             <input
-              type='password'
               required
+              type='password'
               placeholder='password'
-              className='bg-trans-l-green rounded-3xl pl-4 mt-6 bg-opacity-20'
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              className='bg-trans-l-green rounded-3xl pl-4 mt-6 bg-opacity-20  text-white'
             />
             <div className='flex justify-center items-center w-full'>
               <button
