@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Calendar from 'react-calendar'
 //
@@ -62,11 +62,34 @@ const freetime = [
     time: '12:30-13:00'
   }
 ]
+
+/**
+ *
+ * trebam sad napravit ovak neki kao forloop koji racuna za 60 dana unaprijed i da ih ja mogu odabrat
+ * od danasnjeg dana kao i to se tak rjesava bez kalendara
+ * SUTRA SLOZIT AUTH I PRIVATE ROUTE , SLOZIT RECAPTCHA ZADNJI PAGE,
+ * SLOZIT SLANJE PODATAKA PREKO STRANICA DOVRSIT ODABIR TERMINA
+ * RADIT SAMO NA POBOLJSANJU DIZAJNA
+ */
 export default function DateReservation () {
   const [barberSelected, setBarberSelected] = useState(0)
   const [timeSelected, setTimeSelected] = useState('')
   const [dateSelected, setDateSelected] = useState(new Date())
-
+  useEffect(() => {
+    const today = new Date()
+    const copy = new Date()
+    console.log('TODAY IS: ', today.toLocaleDateString())
+    today.setDate(today.getDate() + 60)
+    console.log(
+      'TIME IN 60 VS TIME NOW',
+      today.getTime(),
+      ' | x | ',
+      copy.getTime()
+    )
+    const difference = today.getTime() - copy.getTime()
+    const dif_days = difference / (1000 * 3600 * 24)
+    console.log('THAT IS IN:', Math.round(dif_days))
+  }, [])
   let navigate = useNavigate()
   return (
     <div className='w-full h-full flex flex-col justify-cetner items-center text-white'>
