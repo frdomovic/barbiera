@@ -75,21 +75,33 @@ export default function DateReservation () {
   const [barberSelected, setBarberSelected] = useState(0)
   const [timeSelected, setTimeSelected] = useState('')
   const [dateSelected, setDateSelected] = useState(new Date())
+  const [dates, setDates] = useState([])
   useEffect(() => {
     const today = new Date()
     const copy = new Date()
-    console.log('TODAY IS: ', today.toLocaleDateString())
+    //console.log('TODAY IS: ', today.toLocaleDateString())
     today.setDate(today.getDate() + 60)
-    console.log(
+    /*console.log(
       'TIME IN 60 VS TIME NOW',
       today.getTime(),
       ' | x | ',
       copy.getTime()
-    )
+    )*/
     const difference = today.getTime() - copy.getTime()
     const dif_days = difference / (1000 * 3600 * 24)
-    console.log('THAT IS IN:', Math.round(dif_days))
+    //console.log('THAT IS IN:', Math.round(dif_days))
+    getDates()
   }, [])
+  const getDates = () => {
+    let dateArray = []
+    let diff = new Date()
+    for (let i = 0; i < 60; i++) {
+      let today = new Date()
+      today.setDate(today.getDate() + i)
+      dateArray.push(today)
+    }
+    setDates(dateArray)
+  }
   let navigate = useNavigate()
   return (
     <div className='w-full h-full flex flex-col justify-cetner items-center text-white'>
@@ -125,6 +137,35 @@ export default function DateReservation () {
           <div>
             <div className='mt-0'>Odabir datuma</div>
             <div className='mt-1 w-1/3 rounded-3xl border border-yellow-300 border-solid'></div>
+            {/*<div className='list-none bg-black grid grid-cols-60'>
+              {dates.map((element, index) => {
+                return <div key={index}>{element}</div>
+              })}
+            </div>*/}
+            <div className='flex'>
+              <button className='bg-green-500 bg-opacity-40 rounded-full w-5'>
+                {'<'}
+              </button>
+              <div type='button' className='h-20 w-5/6 flex overflow-x-scroll'>
+                {dates.map((element, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className='mr-3 mt-2 mb-2 pl-2 pr-2 rounded-3xl bg-yellow-400 bg-opacity-20 text-center items-center justify-center flex hover:bg-green-700 hover:bg-opacity-40 hover:border hover:border-white hover:border-solid cursor-pointer'
+                      onClick={() => setDateSelected(element)}
+                    >
+                      {element.toLocaleDateString()}
+                    </div>
+                  )
+                })}
+              </div>
+              <button
+                type='button'
+                className='bg-green-500 bg-opacity-40 rounded-full w-5'
+              >
+                {'>'}
+              </button>
+            </div>
           </div>
 
           <div>
@@ -157,13 +198,21 @@ export default function DateReservation () {
             <div className='flex'>
               {' '}
               Datum i vrijeme:{' '}
-              <h1 className='ml-2 mr-2 text-yellow-500 font-bold'></h1> u
-              terminu{' '}
+              <h1 className='ml-2 mr-2 text-yellow-500 font-bold'>
+                {dateSelected.toLocaleDateString()}
+              </h1>{' '}
+              u terminu{' '}
               <h1 className='ml-2 text-yellow-500 font-bold'>{timeSelected}</h1>
             </div>
             <div className='flex'>
               vaša reverzavija za:{' '}
-              <h1 className='ml-2 text-yellow-500 font-bold mr-2'>3</h1> dana
+              <h1 className='ml-2 text-yellow-500 font-bold mr-2'>
+                {Math.round(
+                  (dateSelected.getTime() - new Date().getTime()) /
+                    (1000 * 3600 * 24)
+                )}
+              </h1>{' '}
+              dana
             </div>
           </div>
           <button
