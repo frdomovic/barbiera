@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 
@@ -54,10 +55,21 @@ const DATA = [
 ]
 export default function StarterPage () {
   const [showAdditionalInfoID, setShowAdditionalInfoID] = useState(0)
+  const [mainServiceData, setMainServiceData] = useState([])
+  useEffect(() => {
+    const getData = async () => {
+      await fetch('http:localhost:8080/get-services')
+        .then(result => {
+          console.log(result)
+        })
+        .catch(error => {
+          console.log('API error: ', error)
+        })
+    }
+    getData()
+  }, [])
   let navigate = useNavigate()
-  const tellme = () => {
-    console.log('ID: ', showAdditionalInfoID)
-  }
+
   return (
     <div className='flex justify-center items-center text-white'>
       <div className='h-screen/1 w-2/4 mr-10 rounded-3xl bg-black bg-opacity-60'>
@@ -77,7 +89,6 @@ export default function StarterPage () {
                         value={element.id}
                         className='ml-2 mt-5 scale-150 '
                         onChange={e => {
-                          tellme()
                           setShowAdditionalInfoID(e.target.value)
                         }}
                         id={element.id}

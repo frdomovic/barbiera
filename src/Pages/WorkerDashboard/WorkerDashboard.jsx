@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import logo_white from '../../Assets/Images/logo_white.png'
 import { getUsername, removeUserSession } from '../../Auth/SessionFunctions'
