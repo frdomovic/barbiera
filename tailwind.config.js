@@ -34,14 +34,27 @@ module.exports = {
       height: theme => ({
         'screen/1': '65vh',
         'screen/2': '50vh',
-        'screen/0': '73vh',
+        'screen/0': '70vh',
         'screen/3': 'calc(100vh / 3)',
 
         'screen/4': 'calc(100vh / 4)',
 
         'screen/5': 'calc(100vh / 5)'
+      }),
+      width: theme => ({
+        'screen/1': '65vw',
+        'screen/2': '50vw',
+        'screen/0': '38.6vw',
+        'screen/3': 'calc(100vw / 3)',
+
+        'screen/4': 'calc(100vw / 4)',
+
+        'screen/5': 'calc(100vw / 5)'
       })
     }
   },
-  plugins: [require('./node_modules/tailwind-percentage-heights-plugin')()]
+  plugins: [
+    require('./node_modules/tailwind-percentage-heights-plugin')(),
+    require('tailwind-scrollbar-hide')
+  ]
 }

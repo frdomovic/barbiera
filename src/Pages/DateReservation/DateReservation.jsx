@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Calendar from 'react-calendar'
+import { useRef } from 'react'
 //
 import worker_fe from '../../Assets/Images/worker_fe.png'
 import worker_ma from '../../Assets/Images/worker_ma.png'
@@ -62,7 +62,7 @@ const freetime = [
     time: '12:30-13:00'
   }
 ]
-
+const DOF = ['ned', 'pon', 'uto', 'sri', 'čet', 'pet', 'sub']
 /**
  *
  * trebam sad napravit ovak neki kao forloop koji racuna za 60 dana unaprijed i da ih ja mogu odabrat
@@ -76,6 +76,7 @@ export default function DateReservation () {
   const [timeSelected, setTimeSelected] = useState('')
   const [dateSelected, setDateSelected] = useState(new Date())
   const [dates, setDates] = useState([])
+  const ref = useRef(null)
   useEffect(() => {
     const today = new Date()
     const copy = new Date()
@@ -94,13 +95,15 @@ export default function DateReservation () {
   }, [])
   const getDates = () => {
     let dateArray = []
-    let diff = new Date()
     for (let i = 0; i < 60; i++) {
       let today = new Date()
       today.setDate(today.getDate() + i)
       dateArray.push(today)
     }
     setDates(dateArray)
+  }
+  const scrollList = scrollNumber => {
+    ref.current.scrollLeft += scrollNumber
   }
   let navigate = useNavigate()
   return (
@@ -137,31 +140,33 @@ export default function DateReservation () {
           <div>
             <div className='mt-0'>Odabir datuma</div>
             <div className='mt-1 w-1/3 rounded-3xl border border-yellow-300 border-solid'></div>
-            {/*<div className='list-none bg-black grid grid-cols-60'>
-              {dates.map((element, index) => {
-                return <div key={index}>{element}</div>
-              })}
-            </div>*/}
-            <div className='flex'>
-              <button className='bg-green-500 bg-opacity-40 rounded-full w-5'>
+            <div className='flex w-full'>
+              <button
+                className='h-16 w-10 mt-2 mr-2 bg-green-500 bg-opacity-40 rounded-full '
+                onClick={() => scrollList(-500)}
+              >
                 {'<'}
               </button>
-              <div type='button' className='h-20 w-5/6 flex overflow-x-scroll'>
+              <ul
+                ref={ref}
+                className='h-20 w-screen/0 flex scroll-smooth scrollbar-hide overflow-x-scroll'
+              >
                 {dates.map((element, index) => {
                   return (
-                    <div
+                    <li
                       key={index}
-                      className='mr-3 mt-2 mb-2 pl-2 pr-2 rounded-3xl bg-yellow-400 bg-opacity-20 text-center items-center justify-center flex hover:bg-green-700 hover:bg-opacity-40 hover:border hover:border-white hover:border-solid cursor-pointer'
+                      className='mr-3 mt-2 mb-2 pl-2 pr-2 flex flex-col rounded-3xl bg-yellow-400 bg-opacity-20 text-center items-center justify-center flex hover:bg-green-700 hover:bg-opacity-40 hover:border hover:border-white hover:border-solid cursor-pointer'
                       onClick={() => setDateSelected(element)}
                     >
-                      {element.toLocaleDateString()}
-                    </div>
+                      <span>{element.toLocaleDateString()}</span>
+                      <div>{DOF[element.getDay()]}</div>
+                    </li>
                   )
                 })}
-              </div>
+              </ul>
               <button
-                type='button'
-                className='bg-green-500 bg-opacity-40 rounded-full w-5'
+                className='h-16 w-10 mt-2 bg-green-500 bg-opacity-40 rounded-full'
+                onClick={() => scrollList(+500)}
               >
                 {'>'}
               </button>
@@ -227,28 +232,3 @@ export default function DateReservation () {
     </div>
   )
 }
-
-/**
- * <div className='h-48 w-48'>
-              <div className='h-32 w-32 bg-green-400 rounded-full'>
-                <img src={poleicon} alt='barber-pole-icn' />
-              </div>
-              <div className='ml-4 mt-2'>Prvi slobodan</div>
-            </div>
-            <div className='h-48 w-48'>
-              <img
-                src={worker_ma}
-                alt='worker-img'
-                className='w-32 h-32 rounded-full'
-              />
-              <div>Stjepan</div>
-            </div>
-            <div className='h-48 w-48'>
-              <img
-                src={worker_fe}
-                alt='worker-img'
-                className='w-32 h-32 rounded-full'
-              />
-              <div>Sara</div>
-            </div>
- */
