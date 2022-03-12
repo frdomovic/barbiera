@@ -2,9 +2,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './Redux/store'
 //
-import PrivateRoute from './Auth/PublicRoute'
-import PublicRoute from './Auth/PublicRoute'
-import PrivateRouteAdmin from './Auth/PrivateRouteAdmin'
+import PrivateRoute from './Auth/PrivateRoute'
+import PrivateRouteW from './Auth/PrivateRouteW'
 //
 import Footer from './Pages/Footer/Footer'
 import Header from './Pages/Header/Header'
@@ -14,6 +13,7 @@ import Login from './Pages/Login/Login'
 import DateReservation from './Pages/DateReservation/DateReservation'
 import AdminDashboard from './Pages/AdminDashboard/AdminDashboard'
 import WorkerDashboard from './Pages/WorkerDashboard/WorkerDashboard'
+import PublicRoute from './Auth/PublicRoute'
 function App () {
   return (
     <Router>
@@ -28,11 +28,16 @@ function App () {
                 path='/date-reservation/endreservation'
                 element={<EndReservation />}
               />
+              <Route element={<PublicRoute />}>
+                <Route path='/login' element={<Login />} />
+              </Route>
 
-              <Route path='/login' element={<Login />} />
-              <Route path='/admin-dashboard' element={<AdminDashboard />} />
-
-              <Route path='/worker-dashboard' element={<WorkerDashboard />} />
+              <Route element={<PrivateRoute />}>
+                <Route path='/admin-dashboard' element={<AdminDashboard />} />
+              </Route>
+              <Route element={<PrivateRouteW />}>
+                <Route path='/worker-dashboard' element={<WorkerDashboard />} />
+              </Route>
             </Routes>
           </Provider>
           <Footer />

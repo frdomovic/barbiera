@@ -1,9 +1,18 @@
-import React, { useEffect } from 'react'
-import { Navigate, Outlet } from 'react-router-dom'
+import React from 'react'
+import { useLocation } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router'
 import { getAdminStatus, getToken } from './SessionFunctions'
 
 const PublicRoute = () => {
-  return getToken() ? <Navigate to='/admin-dashboard' /> : <Outlet />
+  const location = useLocation()
+
+  return !getToken() ? (
+    <Outlet />
+  ) : getAdminStatus() ? (
+    <Navigate to='/admin-dashboard' state={{ from: location }} replace />
+  ) : (
+    <Navigate to='/worker-dashboard' state={{ from: location }} replace />
+  )
 }
 
 export default PublicRoute

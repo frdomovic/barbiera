@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import logo_white from '../../Assets/Images/logo_white.png'
 //
-import {
-  getToken,
-  getUsername,
-  removeUserSession
-} from '../../Auth/SessionFunctions'
+import { getUsername, removeUserSession } from '../../Auth/SessionFunctions'
 import AddService from './Services/AddServices'
 import AddWorker from './Services/AddWorker'
 import ChangeDays from './Services/ChangeDays'
@@ -21,9 +17,7 @@ export default function AdminDashboard () {
     removeUserSession()
     navigate('/login', { replace: true })
   }
-  useEffect(() => {
-    console.log(id)
-  }, [id])
+
   return (
     <div className='w-full h-full flex justify-center items-center text-white'>
       <div className='flex flex-col h-screen/0 w-4/5 mt-10 bg-black bg-opacity-40 rounded-3xl'>
@@ -34,7 +28,9 @@ export default function AdminDashboard () {
             </div>
             <span className='mt-5 ml-2'>
               ADMIN:{' '}
-              <span className='ml-2 text-yellow-400'>{getUsername()}</span>
+              <span className='ml-2 text-yellow-400'>
+                {JSON.parse(getUsername())}
+              </span>
             </span>
           </div>
           <div className='w-48 h-10 mt-5'>

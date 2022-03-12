@@ -2,11 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import logo_white from '../../Assets/Images/logo_white.png'
-import {
-  setAdminSession,
-  setWorkerSession,
-  getToken
-} from '../../Auth/SessionFunctions'
+import { setAdminSession, setWorkerSession } from '../../Auth/SessionFunctions'
 
 export default function Login () {
   const [username, setUsername] = useState('')
@@ -14,10 +10,8 @@ export default function Login () {
   const navigate = useNavigate()
   const handleLogin = async e => {
     e.preventDefault()
-    setAdminSession('1293moamwomiod231jnoiwjaoejkwa', username, 'true')
 
-    navigate('/admin-dashboard', { replace: true })
-    /*const requestOptions = {
+    const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -25,7 +19,6 @@ export default function Login () {
         password: password
       })
     }
-    console.log('admin : ', username, ' pass: ', password)
     await fetch('/login/regular', requestOptions)
       .then(result => {
         if (result.status === 202) {
@@ -36,7 +29,7 @@ export default function Login () {
           navigate('../worker-dashboard', { replace: true })
         }
       })
-      .catch(error => console.error(error))*/
+      .catch(error => console.error(error))
   }
 
   return (
