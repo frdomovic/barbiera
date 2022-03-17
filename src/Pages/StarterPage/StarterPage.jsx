@@ -1,131 +1,118 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 
 import Pricings from './Pricings'
 import Services from './Services'
-const DATA = [
-  {
-    id: 1235,
-    name: 'šišanje',
-    time: '30minuta',
-    desc: 'klasicno sisanje',
-    price: '90',
-    services: [
-      {
-        service_id: 9999,
-        service_name: 'Masaža vlasišta i lica',
-        desc: 'pranje kose',
-        service_time: '15minuta',
-        service_price: '50'
-      },
-      {
-        service_id: 9998,
-        service_name: 'Uređivanje brade na jednu dužinu',
-        desc: '',
-        service_time: '15minuta',
-        service_price: '60'
-      }
-    ]
-  },
-  {
-    id: 12335,
-    name: 'šišanje2',
-    time: '30minuta',
-    desc: '',
-    price: '120',
-    services: [
-      {
-        service_id: 99299,
-        service_name: 'Masaža vlasišta i lica',
-        desc: 'pranje kose',
-        service_time: '15minuta',
-        service_price: '50'
-      },
-      {
-        service_id: 99298,
-        service_name: 'Uređivanje brade na jednu dužinu',
-        desc: '',
-        service_time: '15minuta',
-        service_price: '60'
-      }
-    ]
-  }
-]
+
 export default function StarterPage () {
-  const [showAdditionalInfoID, setShowAdditionalInfoID] = useState(0)
-  const [mainServiceData, setMainServiceData] = useState([])
-  useEffect(() => {
-    const getData = async () => {
-      await fetch('http:localhost:8080/get-services')
-        .then(result => {
-          console.log(result)
-        })
-        .catch(error => {
-          console.log('API error: ', error)
-        })
-    }
-    getData()
-  }, [])
+  const [subs, setSubs] = useState(100)
+  const [data, setData] = useState([])
+  const [price, setPrice] = useState('')
+  const [duration, setDuration] = useState('')
+  const [selectedService, setSS] = useState({
+    name: '',
+    price: '',
+    currency: '',
+    duration: ''
+  })
+  const [selectedSub, setSSS] = useState([])
+
   let navigate = useNavigate()
+  const getServices = async () => {
+    await fetch('/schedule/get-services')
+      .then(result => result.text())
+      .then(result => setData(JSON.parse(result)))
+      .catch(error => console.log('error:', error))
+  }
+  useEffect(() => {
+    getServices()
+  }, [])
 
   return (
     <div className='flex justify-center items-center text-white'>
       <div className='h-screen/1 w-2/4 mr-10 rounded-3xl bg-black bg-opacity-60'>
-        <div className='h-12 p-10 mt-4 flex flex-col justify-center items-center'>
-          <h1 className='font-bold text-3xl'>Odaberi uslugu</h1>
+        <div className='h-12 p-10 flex flex-col justify-center items-center'>
+          <h1 className='font-bold text-2xl'>Odaberi uslugu</h1>
           <div className='mt-1 w-1/3 rounded-3xl border border-bg-green-700 border-solid'></div>
         </div>
-        <Form>
-          <Form.Group className='ml-5 list-none text-white text-2xl '>
-            {DATA.map((element, index) => {
-              return (
-                <div key={index} className='mb-6'>
-                  <div className='pb-2 grid grid-cols-7'>
-                    <div className='flex flex-cols col-span-4'>
-                      <Form.Check
-                        type='checkbox'
-                        value={element.id}
-                        className='ml-2 mt-5 scale-150 '
-                        onChange={e => {
-                          setShowAdditionalInfoID(e.target.value)
-                        }}
-                        id={element.id}
-                      />
-                      <h1 className='mt-6 ml-3'>
-                        {element.name} ({element.time})
-                        {element.desc && <span> - {element.desc}</span>}
-                      </h1>
-                    </div>
-                    <div className='col-span-2'></div>
-                    <div className='pr-7 mt-5 text-right text-3xl font-bold text-orange-600'>
-                      {element.price}kn
-                    </div>
-                  </div>
-                  <div>
-                    {console.log(showAdditionalInfoID === element.id)}
-                    {/*
-                    <div className='text-gray-300 ml-10'>
-                      {element.services.map((subel, index) => {
-                        return (
-                          <div key={index} className='flex text-md'>
-                            <Form.Check type='radio' />
-                            <span className='ml-2'>
-                              {subel.service_name} ({subel.service_time})
-                            </span>
-                          </div>
-                        )
-                      })}
-                    </div>
-                    */}
-                  </div>
-                  <div className='mt-1 mr-3 w-fill rounded-3xl border border-bg-green-700 border-solid'></div>
+        <div className='h-4/5 ml-4 mr-4 '>
+          {data.map((element, index) => {
+            return (
+              <div key={index}>
+                <div
+                  className='ml-3 mr-3 pl-3 pr-3 text-white bg-yellow-500 bg-opacity-50 mb-2 rounded-3xl hover:bg-green-500 hover:bg-opacity-30 cursor-pointer'
+                  onClick={() => {
+                    setSSS([])
+                    if (subs === index) {
+                      setSubs(999)
+                      setSS({
+                        name: '',
+                        price: '',
+                        currency: ''
+                      })
+                      setPrice('')
+                      setDuration('')
+                    } else {
+                      setSubs(index)
+                      setSS({
+                        ...selectedService,
+                        name: element.name,
+                        price: element.price,
+                        duration: element.duration,
+                        currency: element.currency
+                      })
+                      setPrice(element.price)
+                      setDuration(element.duration)
+                    }
+                  }}
+                >
+                  <span className='font-bold'>{element.name} </span>
+                  <span className='text-sm'>
+                    ({element.duration}min) - {element.description}
+                  </span>
+                  <span className='float-right font-bold text-yellow-400'>
+                    {element.price}
+                    {element.currency}
+                  </span>
                 </div>
-              )
-            })}
-          </Form.Group>
-        </Form>
+                {index === subs && (
+                  <div>
+                    {element.subservices.map((subs, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className='w-3/5 mb-1 ml-20 pl-2 pr-2 bg-yellow-800 bg-opacity-30 rounded-3xl hover:bg-red-400 hover:bg-opacity-30 cursor-pointer'
+                          onClick={() => {
+                            if (!selectedSub.includes(subs)) {
+                              setSSS(arr => [...arr, subs])
+                              setPrice(price + subs.price)
+                              setDuration(duration + subs.duration)
+                            } else {
+                              let a = selectedSub.filter(el => el !== subs)
+                              setSSS(a)
+                              setPrice(price - subs.price)
+                              setDuration(duration - subs.duration)
+                            }
+                          }}
+                        >
+                          <span>{subs.name} </span>
+                          <span className='text-sm'>
+                            ({subs.duration}min) - {subs.description}
+                          </span>
+                          <span className='float-right font-bold text-yellow-400'>
+                            {subs.price}
+                            {subs.currency}
+                          </span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
       </div>
       <div className='h-screen/3 bg-black bg-opacity-60 rounded-3xl'>
         <div className='flex flex-col items-center'>
@@ -134,15 +121,29 @@ export default function StarterPage () {
           </h1>
           <div className='mt-1 w-4/5 rounded-3xl border border-bg-green-700 border-solid'></div>
         </div>
-        <div className='mt-2 ml-10'>
-          <span>
-            -sisanje 90kn
-            <br />
-            -masaza lica i vlasista 50kn <br />
+        <div className='h-16 mt-2 ml-10'>
+          <span>{selectedService.name}</span>
+          <span className='mr-10 float-right text-yellow-400'>
+            {selectedService.price}
+            {selectedService.currency}
           </span>
+          <div>
+            {selectedSub &&
+              selectedSub.map((el, i) => {
+                return (
+                  <div key={i}>
+                    <span>{el.name}</span>
+                    <span className='mr-10 float-right text-yellow-400'>
+                      {el.price}
+                      {el.currency}
+                    </span>
+                  </div>
+                )
+              })}
+          </div>
         </div>
 
-        <div className='w-4/5 mt-1 ml-10  rounded-3xl border border-bg-green-700 border-solid'></div>
+        <div className='w-4/5 mt-2 ml-10  rounded-3xl border border-bg-green-700 border-solid'></div>
         <div className='mt-4 flex flex-col items-center'>
           <div className='ml-10'>
             <span className='ml-1'>PROMO KOD</span>
@@ -163,10 +164,14 @@ export default function StarterPage () {
         <div className='mt-3 flex flex-col items-center'>
           <span>
             CIJENA:{' '}
-            <span className='text-yellow-500 text-bold text-2xl'>140kn</span>
+            <span className='text-yellow-500 text-bold text-2xl'>
+              {price}
+              {selectedService.currency}
+            </span>
           </span>
           <span>
-            TRAJANJE: <span className='text-yellow-500'>45min</span>
+            TRAJANJE:{' '}
+            {duration && <span className='text-yellow-500'>{duration}min</span>}
           </span>
           <button
             type='button'

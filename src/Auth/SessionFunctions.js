@@ -1,5 +1,5 @@
 export const setWorkerSession = (token, user) => {
-  sessionStorage.setItem('token', token)
+  sessionStorage.setItem('token', JSON.stringify(token))
   sessionStorage.setItem('username', JSON.stringify(user))
   sessionStorage.setItem('worker', JSON.stringify('true'))
 }

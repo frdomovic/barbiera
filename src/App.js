@@ -22,13 +22,13 @@ function App () {
           <Header />
           <Provider store={store}>
             <Routes>
-              <Route path='/' element={<StarterPage />} />
-              <Route path='/date-reservation' element={<DateReservation />} />
-              <Route
-                path='/date-reservation/endreservation'
-                element={<EndReservation />}
-              />
               <Route element={<PublicRoute />}>
+                <Route path='/' element={<StarterPage />} />
+                <Route path='/date-reservation' element={<DateReservation />} />
+                <Route
+                  path='/date-reservation/endreservation'
+                  element={<EndReservation />}
+                />
                 <Route path='/login' element={<Login />} />
               </Route>
 

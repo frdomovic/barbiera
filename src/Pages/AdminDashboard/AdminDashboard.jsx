@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import logo_white from '../../Assets/Images/logo_white.png'
 //
 import { getUsername, removeUserSession } from '../../Auth/SessionFunctions'
-import AddService from './Services/AddServices'
+import AddService from './Services/AddingServices/AddServices'
 import AddWorker from './Services/AddWorker'
-import ChangeDays from './Services/ChangeDays'
+import ChangeDays from './Services/DayAndTimeChanges/ChangeDays'
 import Schedule from './Services/Schedule'
 import UserDetails from './Services/UserDetails'
 //
@@ -61,7 +61,7 @@ export default function AdminDashboard () {
               USLUGE
             </div>
           </div>
-          <div className='h-9/10 mt-3 ml-2 mr-2 rounded-lg bg-white bg-opacity-40'>
+          <div className='h-9/10 mt-3 ml-2 mr-2 rounded-lg bg-black bg-opacity-40'>
             {
               {
                 1: <Schedule />,
@@ -77,26 +77,3 @@ export default function AdminDashboard () {
     </div>
   )
 }
-/**
- * <div className='w-full h-20 mt-5 flex flex-row justify-between rounded-lg bg-red-500'>
-          <div className='h-10 ml-5 flex text-white text-lg font-bold'>
-            <div className='h-14 w-14 mt-2 rounded-full bg-green-800 bg-opacity-70 flex justify-center items-center'>
-              <img src={logo_white} alt='logo' className='h-10 w-10' />
-            </div>
-            <span className='mt-5 ml-2'>
-              ADMIN:{' '}
-              <span className='ml-2 text-yellow-400'>{getUsername()}</span>
-            </span>
-          </div>
-          <div className='w-48 h-10 mt-5'>
-            <button
-              type='button'
-              className='w-32 mt-1 ml-10 bg-yellow-600 bg-opacity-60 rounded-3xl'
-              onClick={() => handlelogout()}
-            >
-              LOGOUT
-            </button>
-          </div>
-        </div>
-        <div className='bg-yellow-400'>AA</div>
- */
